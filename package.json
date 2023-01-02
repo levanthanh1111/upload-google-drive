@@ -1,0 +1,12 @@
+{
+  "name": "UploadFileBackup",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.1",
+    "dotenv": "^16.0.3",
+    "googleapis": "^110.0.0",
+    "process": "^0.11.10"
+  }
+}

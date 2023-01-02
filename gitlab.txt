@@ -1,0 +1,153 @@
+######################################
+IP address 	: 100.0.0.11
+Operating System: Ubuntu 22.04
+RAM 		: 4 GB (More for best performance)
+Disk 		: 50 GB
+vCPU 		: 2
+CPU op-mode(s) 	: 64-bit
+Service 	: GitLab CE
+######################################
+
+
+topic 1
+
+Step #01: Server update and upgrade then add repo.
+
+root@gitlab-ce:~# lsb_release -d && ip r
+root@gitlab-ce:~# apt update && apt upgrade -y
+root@gitlab-ce:~# apt install -y ca-certificates curl openssh-server tzdata
+root@gitlab-ce:~# curl -fsSL https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey| sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/gitlab.gpg
+root@gitlab-ce:~# vi /etc/apt/sources.list.d/gitlab_gitlab-ce.list
+
+Add below line into source list file.
+
+deb https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ focal main
+deb-src https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ focal main
+
+Step #02: Then run main command.
+
+root@gitlab-ce:~# apt update
+root@gitlab-ce:~# apt install gitlab-ce
+root@gitlab-ce:~# vi /etc/gitlab/gitlab.rb
+
+external_url '100.0.0.11'
+
+Step #03: Then configure gitlab-cli
+
+root@gitlab-ce:~# sudo gitlab-ctl reconfigure
+
+Check status using below command
+root@gitlab-ce:~# gitlab-ctl status
+
+Collect root password from below command.
+root@gitlab-ce:~# cat /etc/gitlab/initial_root_password
+stech@261724
+
+Check below command for manage GitLab.
+
+root@gitlab-ce:~# gitlab-rake gitlab:check
+root@gitlab-ce:~# gitlab-ctl status
+root@gitlab-ce:~# gitlab-ctl stop
+root@gitlab-ce:~# gitlab-ctl start
+root@gitlab-ce:~# gitlab-ctl restart logrotate
+
+topic 2: config
+step 1:
+config backgroup
+step 2: 
+cofig: mkdir backups, gitdata => repositories for gitlab
+topic 3:
+config: smpt gmail
+
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.gmail.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "my.email@gmail.com"
+gitlab_rails['smtp_password'] = "my-gmail-password"
+gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = false
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+## add
+gitlab_rails['gitlab_email_from'] = 'username@yourdomain.com'
+gitlab_rails['gitlab_email_reply_to'] = 'username@yourdomain.com'
+gitlab_rails['gitlab_email_display_name'] = 'My GitLab'
+
+set less security for gmail (hien tai tinh nang nay gmail khong con ho tro)
+
+test mail: 
+gitlab-rails console
+Notify.test_email('thanh.le280501@stechvn.org','
+Message Subject','Message Body').deliver_now
+
+config postfix for ubuntu
+
+
+vddznszqoozicbia
+
+noreply@stech.international
+zovtxpdvvrjluram	
+Notification Email
+
+stech@261724
+
+
+
+mkdir /project/backup-gitlab
+mkdir data-backup
+cp /etc/gitlab/gitlab.rb /project/backup-gitlab
+cp /etc/gitlab/gitlab-secrets.json /project/backup-gitlab
+cp /etc/nginx/sites-enable/gitlab.conf
+
+sudo apt-get install rsync
+
+sudo gitlab-backup create
+
+
+## Limit backup lifetime to 7 days - 604800 seconds
+gitlab_rails['backup_keep_time'] = 604800
+
+restore
+
+cp file_backup project/backup-gitlab/data-backup
+
+sudo chown git.git file_backup
+
+sudo gitlab-ctl stop puma
+sudo gitlab-ctl stop sidekiq
+# Verify
+sudo gitlab-ctl status
+
+# This command will overwrite the contents of your GitLab database!
+sudo gitlab-backup restore BACKUP=11493107454_2018_04_25_10.6.4-ce
+
+
+cp -f /project/backup-gitlab/gitlab.rb /etc/gitlab
+cp -f /project/backup-gitlab/gitlab-secrets.json /etc/gitlab
+
+
+1672304566_2022_12_29_15.6.2_gitlab_backup.tar
+
+
+sudo gitlab-ctl reconfigure
+sudo gitlab-ctl restart
+
+
+API key created
+
+AIzaSyBCD9RbYFyxzQfdqv_npKxGPcAowxb7UWg
+
+Your Client ID
+848127162217-qd9ckjbbtsvunca09kgblq0bhs98j8t3.apps.googleusercontent.com
+
+Your Client Secret
+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
+
+
+web 
+848127162217-a1cpeo6l32r5q448c9fibh0ngggcvl3p.apps.googleusercontent.com
+
+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
+
+1//04f7I0FHF4gc9CgYIARAAGAQSNwF-L9IraPAhTCfBimbRMyqmquMcV54ojbgnp7vg95sFxiQlxfrsyrqdIZEf-iBCajn6NmW9UfE
