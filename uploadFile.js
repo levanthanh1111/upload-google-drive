@@ -38,7 +38,7 @@ async function deleteFile(fileId) {
         const deleteFile = await drive.files.delete({
             fileId: fileId
         })
-        console.log(deleteFile.data, deleteFile.status)
+        console.log("status delete folder backup old: ",deleteFile.status)
     } catch (error) {
         console.error(error);
     }
@@ -61,12 +61,12 @@ module.exports = {
                 }
             })
             if(createFile.status === 200) {
-                await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+         //       await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             } else {
                 await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             }
         } catch (error) {
-              await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+            await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             console.error(error);
         }
     },
@@ -75,14 +75,13 @@ module.exports = {
             const getFile = await drive.files.list({
                 q: `'${ID_OF_THE_FOLDER}' in parents and trashed=false`
             })
-            if(getFile.data.files.length >= 5) {
-                for (let i = 5; i < getFile.data.files.length; i++) {
-                    if (i >= 5) {
+            if(getFile.data.files.length >= 3) {
+                for (let i = 3; i < getFile.data.files.length; i++) {
+                    if (i >= 3) {
                          await deleteFile(getFile.data.files[i]['id'])
                     }
                 }
             }
-            console.log(getFile.data.files)
         }  catch (error) {
             console.error(error)
         }
