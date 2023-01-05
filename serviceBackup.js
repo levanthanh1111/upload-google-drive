@@ -1,7 +1,8 @@
 const {uploadFile, getFile} = require("./uploadFile");
+require('dotenv').config();
 
-uploadFile().then(r => {
-    getFile('1K5ot1d0SkjsBU5unOEQ8dSpijRWw4RvI').then(() => {
+uploadFile().then(() => {
+    getFile(process.env.FOLDER_ID).then(() => {
     } )
     console.log("upload success")
 });

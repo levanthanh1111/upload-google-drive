@@ -30,7 +30,7 @@ app.get('/',authentication, async function (req, res) {
                             })
                         }
                     })
-                },300000)
+                },1000)
             }
         })
     }
@@ -42,6 +42,7 @@ app.get('/',authentication, async function (req, res) {
     }
 })
 
-app.listen(4010, () =>{
+const server = app.listen(4010, () => {
     console.log("SERVER RUNNING PORT 4010")
-})
+});
+server.setTimeout(500000)

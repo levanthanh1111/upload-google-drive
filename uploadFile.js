@@ -51,7 +51,7 @@ module.exports = {
         try {
             const createFile = await drive.files.create({
                 requestBody: {
-                    parents: ['1K5ot1d0SkjsBU5unOEQ8dSpijRWw4RvI'],
+                    parents: [process.env.FOLDER_ID],
                     name: `file-backup-${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s.tar.gz`,
                     mimeType: 'application/gzip'
                 },
@@ -61,12 +61,15 @@ module.exports = {
                 }
             })
             if(createFile.status === 200) {
-                await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+                await sendMailGitlab(process.env.GMAIL_THANH, `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+                await sendMailGitlab(process.env.GMAIL_HUNG, `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             } else {
-                await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+                await sendMailGitlab(process.env.GMAIL_HUNG, `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+                await sendMailGitlab(process.env.GMAIL_THANH, `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             }
         } catch (error) {
-            await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+            await sendMailGitlab(process.env.GMAIL_HUNG, `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+            await sendMailGitlab(process.env.GMAIL_THANH, `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             console.error(error);
         }
     },
