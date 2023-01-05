@@ -44,14 +44,15 @@ async function deleteFile(fileId) {
     }
 }
 
+const pathFileENV = path.join(__dirname, 'gitlab.zip');
 const pathFile = path.join(__dirname, 'data-backup.tar.gz');
 const time = new Date();
 module.exports = {
-    uploadFile: async () => {
+    uploadFile: async (folderId) => {
         try {
             const createFile = await drive.files.create({
                 requestBody: {
-                    parents: [process.env.FOLDER_ID],
+                    parents: [folderId],
                     name: `file-backup-${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s.tar.gz`,
                     mimeType: 'application/gzip'
                 },
@@ -73,10 +74,30 @@ module.exports = {
             console.error(error);
         }
     },
-    getFile: async(ID_OF_THE_FOLDER) => {
+    uploadFileENV: async (folderId) =>{
+        try{
+            const createFile = await drive.files.create({
+                requestBody:{
+                    parents: [folderId],
+                    name: process.env.NAME_FILE_ENV,
+                    mimeType: 'application/zip'
+                },
+                media:{
+                    mimeType: 'application/zip',
+                    body: fs.createReadStream(pathFileENV)
+                }
+            })
+            if(createFile.status === 200){
+                console.log("UPLOAD FILE ENV SUCCESS, CHECK GOOGLE DRIVE PLEASE!")
+            }
+        } catch (error){
+            console.log(error)
+        }
+    },
+    getFile: async(folderId) => {
         try {
             const getFile = await drive.files.list({
-                q: `'${ID_OF_THE_FOLDER}' in parents and trashed=false`
+                q: `'${folderId}' in parents and trashed=false`
             })
             if(getFile.data.files.length >= 3) {
                 for (let i = 3; i < getFile.data.files.length; i++) {
