@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
 const {exec} = require('child_process')
+const {authentication} = require("./authentication");
 
-app.get('/', async function (req, res) {
+app.get('/',authentication, async function (req, res) {
     try {
         exec('sudo gitlab-backup create', (error, stdout) => {
             if (error) {
