@@ -61,7 +61,7 @@ module.exports = {
                 }
             })
             if(createFile.status === 200) {
-         //       await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
+                await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup SUCCESS Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             } else {
                 await sendMailGitlab("thanh0967669406@gmail.com", `Gitlab backup FAIL Time: ${time.getDate()}thg${time.getMonth() + 1},${time.getFullYear()}-${time.getHours()}h${time.getMinutes()}m${time.getSeconds()}s`)
             }
