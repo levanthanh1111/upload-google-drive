@@ -21,7 +21,7 @@ const drive = google.drive({
     auth: oauth2Client
 })
 
-exec("tar -zcf data-backup.tar.gz data-backup", (error, stdout, stderr) => {
+exec("sudo tar -zcf data-backup.tar.gz data-backup", (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
         return;
